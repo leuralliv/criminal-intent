@@ -2,12 +2,12 @@ package com.example.android.criminalintent2;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.criminalintent2.R;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -142,7 +144,7 @@ public class CrimeListFragment extends Fragment {
             itemView.setOnClickListener(this);
 
             mTitleTextView = (TextView)
-                    itemView.findViewById(R.id.list_item_crime_title_text_view);
+                    itemView.findViewById(com.example.criminalintent2.R.id.list_item_crime_title_text_view);
             mDateTextView = (TextView)
                     itemView.findViewById(R.id.list_item_crime_date_text_view);
             mSolvedCheckBox = (CheckBox)
@@ -235,18 +237,30 @@ public class CrimeListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_item_new_crime:
-                addACrime();
-                return true;
-            case R.id.menu_item_show_subtitle:
-                mSubtitleVisible = !mSubtitleVisible;
-                getActivity().invalidateOptionsMenu();
-                updateSubtitle();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_item_new_crime) {
+            addACrime();
+            return true;
+        } else if (item.getItemId() == R.id.menu_item_show_subtitle) {
+            mSubtitleVisible = !mSubtitleVisible;
+            getActivity().invalidateOptionsMenu();
+            updateSubtitle();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
+
+
+//        switch (item.getItemId()) {
+//            case R.id.menu_item_new_crime:
+//                addACrime();
+//                return true;
+//            case R.id.menu_item_show_subtitle:
+//                mSubtitleVisible = !mSubtitleVisible;
+//                getActivity().invalidateOptionsMenu();
+//                updateSubtitle();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
     }
 
     private void updateSubtitle() {

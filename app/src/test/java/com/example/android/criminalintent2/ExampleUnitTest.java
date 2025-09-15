@@ -1,8 +1,8 @@
 package com.example.android.criminalintent2;
 
-import org.junit.Test;
+import org.junit.Test; // Add this line
+import static org.junit.Assert.*; // This line is likely already there or should be
 
-import static org.junit.Assert.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

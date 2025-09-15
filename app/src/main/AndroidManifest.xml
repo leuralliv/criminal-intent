@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.android.criminalintent2">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-feature android:name="android.hardware.camera"
         android:required="false"/>
@@ -16,32 +15,33 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CrimeListActivity">
+
+        <activity android:name="com.example.android.criminalintent2.CrimeListActivity"
+        android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".CrimePagerActivity"
-            android:parentActivityName=".CrimeListActivity">
+            android:name="com.example.android.criminalintent2.CrimePagerActivity"
+            android:parentActivityName="com.example.android.criminalintent2.CrimeListActivity">
         </activity>
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.android.criminalintent2.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
 
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/files"/>
-
         </provider>
 
-        <activity android:name=".DatePickerActivity"/>
-        <activity android:name=".TimePickerActivity"/>
+        <activity android:name="com.example.android.criminalintent2.DatePickerActivity"/>
+        <activity android:name="com.example.android.criminalintent2.TimePickerActivity"/>
     </application>
 
 </manifest>

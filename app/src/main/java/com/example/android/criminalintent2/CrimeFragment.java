@@ -14,13 +14,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ShareCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ShareCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,6 +38,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.criminalintent2.R;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -140,7 +142,7 @@ public class CrimeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
         setHasOptionsMenu(true);
-        mTitleField = (EditText) v.findViewById(R.id.crime_title);
+        mTitleField = v.findViewById(R.id.crime_title);
         mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -161,14 +163,14 @@ public class CrimeFragment extends Fragment {
         });
 
         // Setup date button
-        mDateButton = (Button) v.findViewById(R.id.crime_date);
+        mDateButton = v.findViewById(R.id.crime_date);
         final Date currentDate = mCrime.getDate();
 
         String formattedDate = DateFormatter.formatDateAsString(DATE_FORMAT, currentDate);
         mDateButton.setText(formattedDate);
 
         // Setup time button
-        mTimeButton = (Button) v.findViewById(R.id.crime_time_button);
+        mTimeButton = v.findViewById(R.id.crime_time_button);
         String formattedTime = DateFormatter.formatDateAsTimeString(TIME_FORMAT, currentDate);
         mTimeButton.setText(formattedTime);
 
@@ -208,7 +210,7 @@ public class CrimeFragment extends Fragment {
         });
 
         // Setup checkbox
-        mSolvedCheckBox = (CheckBox) v.findViewById(R.id.crime_solved);
+        mSolvedCheckBox = v.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -218,7 +220,7 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mReportButton = (Button) v.findViewById(R.id.crime_report);
+        mReportButton = v.findViewById(R.id.crime_report);
         mReportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -235,7 +237,7 @@ public class CrimeFragment extends Fragment {
 
         final Intent pickContact = new Intent(Intent.ACTION_PICK,
                 ContactsContract.Contacts.CONTENT_URI);
-        mSuspectButton = (Button) v.findViewById(R.id.crime_suspect);
+        mSuspectButton = v.findViewById(R.id.crime_suspect);
         mSuspectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -247,7 +249,7 @@ public class CrimeFragment extends Fragment {
             mSuspectButton.setText(mCrime.getSuspect());
         }
 
-        mCallSuspectButton = (Button) v.findViewById(R.id.crime_call_suspect);
+        mCallSuspectButton = v.findViewById(R.id.crime_call_suspect);
         mCallSuspectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -269,7 +271,7 @@ public class CrimeFragment extends Fragment {
         }
 
         // Setup photo taking abilities
-        mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
+        mPhotoButton = v.findViewById(R.id.crime_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         boolean canTakePhoto = mPhotoFile != null &&
@@ -300,7 +302,7 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
+        mPhotoView = v.findViewById(R.id.crime_photo);
 
         // On image click, open zoomed image dialog
         mPhotoView.setOnClickListener(new View.OnClickListener() {
@@ -478,21 +480,20 @@ public class CrimeFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_item_delete_crime:
-                if (getActivity().findViewById(R.id.detail_fragment_container) == null) {
-                    deleteCrime();
-                    getActivity().finish();
-                } else {
-                    // Using tablet with two pane view (Clear out fragment
-                    deleteCrime();
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .remove(this)
-                            .commit();
-                }
-                return true;
-            default:
+        if (item.getItemId() == R.id.menu_item_delete_crime) {
+            if (getActivity().findViewById(R.id.detail_fragment_container) == null) {
+                deleteCrime();
+                getActivity().finish();
+            } else {
+                // Using tablet with two pane view (Clear out fragment
+                deleteCrime();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .remove(this)
+                        .commit();
+            }
+            return true;
+        } else {
                 return super.onOptionsItemSelected(item);
         }
     }
@@ -532,7 +533,7 @@ public class CrimeFragment extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
                 // If request is cancelled, the result arrays are empty.

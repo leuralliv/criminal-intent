@@ -4,8 +4,8 @@ package com.example.android.criminalintent2;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import com.example.criminalintent2.R;
 
 /**
  * A date picker alert dialog with a Dialog Fragment superclass wrapper
